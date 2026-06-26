@@ -1,12 +1,21 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public interface ISceneInstance<T> where T : MonoBehaviour, ISceneInstance<T>
 {
-    public static T SceneInstance => _sceneInstance != null ? _sceneInstance : (_sceneInstance = GameObject.FindAnyObjectByType<T>());
-    private static T _sceneInstance;
+    private static T s_sceneInstance;
+    public static T SceneInstance
+    {
+        get
+        {
+            if (s_sceneInstance == null)
+                s_sceneInstance = Component.FindAnyObjectByType<T>();
+
+            return s_sceneInstance;
+        }
+    }
 
     public void InitSceneInstance()
     {
-        _sceneInstance = (T)this;
+        s_sceneInstance = (T)this;
     }
 }
