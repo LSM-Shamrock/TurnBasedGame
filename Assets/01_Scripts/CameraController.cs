@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [AutoInjectionTarget]
 public class CameraController : MonoBehaviour
@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     private float _moveSpeedX = 2f;
     private float _moveSpeedY = 1f;
 
-    private void Update()
+    private void FixedUpdate()
     {
         Vector2 playerPos = ISceneInstance<Player>.SceneInstance.transform.position;
         Vector3 targetPos = transform.position;
@@ -22,8 +22,8 @@ public class CameraController : MonoBehaviour
         if (playerPos.y > bounds.max.y) targetPos.y += playerPos.y - bounds.max.y;
 
         Vector3 pos = transform.position;
-        pos.x = Mathf.Lerp(pos.x, targetPos.x, _moveSpeedX * Time.deltaTime);
-        pos.y = Mathf.Lerp(pos.y, targetPos.y, _moveSpeedY * Time.deltaTime);
+        pos.x = Mathf.Lerp(pos.x, targetPos.x, _moveSpeedX * Time.fixedDeltaTime);
+        pos.y = Mathf.Lerp(pos.y, targetPos.y, _moveSpeedY * Time.fixedDeltaTime);
         transform.position = pos;
     }
 }
